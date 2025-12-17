@@ -7,12 +7,16 @@ import { aiAnalysisData } from '../../data/aiAnalysisData';
 
 export default function ECGModal({ isOpen, onClose, event, currentDate }) {
   const [activeTab, setActiveTab] = useState('abnormal');
+  // Use event?.id as key to reset state when event changes
+  const eventKey = event?.id;
   const [analysisStatus, setAnalysisStatus] = useState('idle'); // idle, loading, done
+  const [lastEventKey, setLastEventKey] = useState(eventKey);
 
-  // Reset analysis status when event changes
-  useEffect(() => {
+  // Reset analysis status when event changes (without direct setState in effect)
+  if (eventKey !== lastEventKey) {
+    setLastEventKey(eventKey);
     setAnalysisStatus('idle');
-  }, [event]);
+  }
 
   const handleAnalyze = () => {
     if (analysisStatus === 'done' || analysisStatus === 'loading') return;
@@ -84,9 +88,9 @@ export default function ECGModal({ isOpen, onClose, event, currentDate }) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 pb-12 flex flex-col gap-4 bg-gray-50/50">
+        <div className="flex-1 overflow-y-auto p-4 pb-12 bg-gray-50/50 block">
           {/* ECG Chart */}
-          <div className="bg-white rounded-2xl border-2 border-gray-300 p-2 relative h-64 shadow-sm">
+          <div className="bg-white rounded-2xl border-2 border-gray-300 p-2 relative h-64 shadow-sm mb-4">
             {/* Top Controls */}
             <div className="absolute top-2 right-2 flex gap-1 z-10">
               <button
@@ -138,7 +142,7 @@ export default function ECGModal({ isOpen, onClose, event, currentDate }) {
           </div>
 
           {/* Date Navigation */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <button className="bg-gray-600 rounded-full p-1.5 text-white shadow-md active:scale-95 transition-transform hover:bg-gray-700">
               <ChevronLeft size={20} />
             </button>
@@ -152,7 +156,7 @@ export default function ECGModal({ isOpen, onClose, event, currentDate }) {
           </div>
 
           {/* Filter Tabs */}
-          <div className="flex bg-white rounded-xl p-1 border border-gray-300 shadow-sm">
+          <div className="flex bg-white rounded-xl p-1 border border-gray-300 shadow-sm mb-4">
             {['전체', '종류', '상태', '시간'].map((tab, idx) => (
               <button
                 key={tab}
@@ -168,7 +172,7 @@ export default function ECGModal({ isOpen, onClose, event, currentDate }) {
           </div>
 
           {/* Selected Event Info */}
-          <div className="flex items-center gap-2 bg-white rounded-xl p-1 pr-4 border-rose-300 ring-1 ring-rose-100 shadow-sm">
+          <div className="flex items-center gap-2 bg-white rounded-xl p-1 pr-4 border-rose-300 ring-1 ring-rose-100 shadow-sm mb-4">
             <div className="w-14 h-11 flex items-center justify-center rounded-lg font-bold text-white shadow-sm bg-rose-300">
               {event?.id}
             </div>

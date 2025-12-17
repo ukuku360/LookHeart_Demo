@@ -3,6 +3,7 @@ import BottomNav from './components/layout/BottomNav';
 import Home from './pages/Home';
 import Stats from './pages/Stats';
 import Arrhythmia from './pages/Arrhythmia';
+import HeartChat from './pages/HeartChat';
 import Menu from './pages/Menu';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         {activeTab === 'home' && <Home />}
         {activeTab === 'stats' && <Stats />}
         {activeTab === 'arrhythmia' && <Arrhythmia />}
+        {activeTab === 'heartchat' && <HeartChat />}
         {activeTab === 'menu' && <Menu />}
       </main>
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />

@@ -23,7 +23,7 @@ export function generateECGWaveform(options = {}) {
   const samplesPerBeat = beatDuration * samplingRate;
 
   for (let i = 0; i < numPoints; i++) {
-    const t = i / samplingRate;
+    const _t = i / samplingRate;
     const beatPhase = (i % samplesPerBeat) / samplesPerBeat;
 
     let value = 50; // Baseline
