@@ -18,13 +18,13 @@ export default function Home() {
       {/* Top Status Header */}
       <div className="flex gap-2 h-20">
         {/* BPM Card */}
-        <div className="flex-1 bg-white rounded-2xl border-2 border-gray-100 relative p-2 flex flex-col items-center justify-center shadow-sm overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-blue-300"></div>
+        <div className="flex-1 bg-blue-400 rounded-2xl relative p-2 flex flex-col items-center justify-center text-white shadow-sm overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-blue-500/30"></div>
             <span className={cn(
-              "text-4xl font-bold text-gray-700 mt-2",
+              "text-4xl font-bold mt-2",
               isConnected && "animate-pulse-slow"
             )}>{data.bpm}</span>
-            <span className="text-[10px] font-bold text-blue-400 absolute bottom-1.5 right-3 tracking-wider">BPM</span>
+            <span className="text-[10px] font-bold absolute bottom-1.5 right-3 opacity-90 tracking-wider">BPM</span>
         </div>
 
         {/* Abnormal Pulse Card */}
