@@ -3,6 +3,7 @@ import { Send, Sparkles, User, Bot, Loader2 } from 'lucide-react';
 import { sendConsultationQuery } from '../services/aiConsultationService';
 import { cn } from '../lib/utils';
 import { mockData } from '../data/mockData';
+import { APP_CONFIG } from '../config/appConfig';
 
 export default function HeartChat() {
   const [messages, setMessages] = useState([
@@ -18,7 +19,7 @@ export default function HeartChat() {
   const messagesEndRef = useRef(null);
 
   // Use fixed mock data for beta
-  const today = '2025-12-17';
+  const today = APP_CONFIG.TODAY;
   const dailyData = mockData.dailyStats[today];
 
   const SUGGESTED_QUESTIONS = [
@@ -32,7 +33,8 @@ export default function HeartChat() {
   }, [messages]);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Force immediate scroll without animation for performance if chat is long
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   };
 
   const handleSendMessage = async (text) => {

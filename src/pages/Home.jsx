@@ -1,15 +1,16 @@
 import React from 'react';
 import { Bluetooth, Zap, Loader2 } from 'lucide-react';
 import { cn } from '../lib/utils';
-import { useBluetoothSimulation } from '../hooks/useBluetoothSimulation';
+import { useBluetooth } from '../contexts/BluetoothContext';
 import { mockData } from '../data/mockData';
 import AIInsightCard from '../components/cards/AIInsightCard';
+import { APP_CONFIG } from '../config/appConfig';
 
 export default function Home() {
-  const { status, data, connect, disconnect, isConnected } = useBluetoothSimulation();
+  const { status, data, connect, disconnect, isConnected } = useBluetooth();
   
-  // Get today's date in YYYY-MM-DD format for mock data lookup
-  const today = '2025-12-17'; // Use fixed date for demo
+  // Get today's date from config
+  const today = APP_CONFIG.TODAY;
   const todayData = mockData.dailyStats[today];
 
   return (

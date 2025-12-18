@@ -5,21 +5,24 @@ import Stats from './pages/Stats';
 import Arrhythmia from './pages/Arrhythmia';
 import HeartChat from './pages/HeartChat';
 import Menu from './pages/Menu';
+import { BluetoothProvider } from './contexts/BluetoothContext';
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900 max-w-md mx-auto shadow-2xl overflow-hidden relative border-x border-gray-100">
-      <main className="h-full min-h-screen relative">
-        {activeTab === 'home' && <Home />}
-        {activeTab === 'stats' && <Stats />}
-        {activeTab === 'arrhythmia' && <Arrhythmia />}
-        {activeTab === 'heartchat' && <HeartChat />}
-        {activeTab === 'menu' && <Menu />}
-      </main>
-      <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
-    </div>
+    <BluetoothProvider>
+      <div className="min-h-screen bg-gray-50 font-sans text-gray-900 max-w-md mx-auto shadow-2xl overflow-hidden relative border-x border-gray-100">
+        <main className="h-full min-h-screen relative">
+          {activeTab === 'home' && <Home />}
+          {activeTab === 'stats' && <Stats />}
+          {activeTab === 'arrhythmia' && <Arrhythmia />}
+          {activeTab === 'heartchat' && <HeartChat />}
+          {activeTab === 'menu' && <Menu />}
+        </main>
+        <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+      </div>
+    </BluetoothProvider>
   );
 }
 

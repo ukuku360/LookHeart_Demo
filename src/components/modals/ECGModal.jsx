@@ -1,9 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, memo } from 'react';
 import { X, BarChart2, ChevronLeft, ChevronRight, Calendar, Sparkles, BrainCircuit } from 'lucide-react';
 import { LineChart, Line, ResponsiveContainer, YAxis, CartesianGrid } from 'recharts';
 import { getECGWaveform } from '../../data/ecgWaveforms';
 import { cn } from '../../lib/utils';
 import { aiAnalysisData } from '../../data/aiAnalysisData';
+
+// Memoized Chart Component to prevent re-renders during AI analysis loading
+const ECGChart = memo(({ data }) => (
+    <div className="w-full h-full pt-8 pb-4 pl-1 pr-1">
+        <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={data}>
+            <CartesianGrid vertical={false} stroke="#e2e8f0" />
+            <YAxis hide domain={[0, 150]} />
+            <Line
+            type="monotone"
+            dataKey="value"
+            stroke="#3b82f6"
+            strokeWidth={1.5}
+            dot={false}
+            isAnimationActive={false} // Disable chart animation for performance
+            />
+        </LineChart>
+        </ResponsiveContainer>
+    </div>
+));
+
+ECGChart.displayName = 'ECGChart';
 
 export default function ECGModal({ isOpen, onClose, event, currentDate }) {
   const [activeTab, setActiveTab] = useState('abnormal');
@@ -33,8 +55,8 @@ export default function ECGModal({ isOpen, onClose, event, currentDate }) {
     ? (aiAnalysisData.ecg[event?.id] || aiAnalysisData.ecg.default)
     : null;
 
-  // Get ECG waveform data for the selected event
-  const ecgData = getECGWaveform(event?.id || 338);
+  // Get ECG waveform data for the selected event - MEMOIZED
+  const ecgData = useMemo(() => getECGWaveform(event?.id || 338), [event?.id]);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -69,7 +91,7 @@ export default function ECGModal({ isOpen, onClose, event, currentDate }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-50 bg-black/50 animate-fade-in" // Removed backdrop-blur-sm for performance
       onClick={onClose}
     >
       <div
@@ -117,23 +139,8 @@ export default function ECGModal({ isOpen, onClose, event, currentDate }) {
               </button>
             </div>
 
-            {/* Waveform */}
-            <div className="w-full h-full pt-8 pb-4 pl-1 pr-1">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={ecgData}>
-                  <CartesianGrid vertical={false} stroke="#e2e8f0" />
-                  <YAxis hide domain={[0, 150]} />
-                  <Line
-                    type="monotone"
-                    dataKey="value"
-                    stroke="#3b82f6"
-                    strokeWidth={1.5}
-                    dot={false}
-                    isAnimationActive={false}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
+            {/* Waveform - Uses Memoized Component */}
+            <ECGChart data={ecgData} />
 
             {/* Stats Button */}
             <button className="absolute bottom-2 right-2 bg-rose-300 rounded-md p-1.5 text-white shadow-sm hover:bg-rose-400 transition-colors">
@@ -190,11 +197,8 @@ export default function ECGModal({ isOpen, onClose, event, currentDate }) {
                   analysisStatus === 'idle' ? "cursor-pointer hover:shadow-md hover:border-rose-200 group" : ""
               )}
           >
-              {/* Background Decor for AI feel */}
-              {analysisStatus !== 'idle' && (
-                   <div className="absolute top-0 right-0 w-32 h-32 bg-rose-500/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
-              )}
-
+              {/* Removed Background Decor Blur for Performance */}
+              
               <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2 relative z-10">
                   {analysisStatus === 'loading' ? (
                       <Sparkles size={18} className="text-rose-500 animate-pulse" />

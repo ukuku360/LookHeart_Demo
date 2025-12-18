@@ -5,8 +5,10 @@ import { useDateNavigation } from '../hooks/useDateNavigation';
 import { getECGWaveform } from '../data/ecgWaveforms';
 import ECGModal from '../components/modals/ECGModal';
 
+import { APP_CONFIG } from '../config/appConfig';
+
 export default function Arrhythmia() {
-  const { currentDate, goToPrevDay, goToNextDay, canGoNext } = useDateNavigation('2025-12-04');
+  const { currentDate, goToPrevDay, goToNextDay, canGoNext } = useDateNavigation(APP_CONFIG.TODAY);
   const [selectedEvent, setSelectedEvent] = useState({ id: 338, time: '16시 10분 57초' });
   const [showECGModal, setShowECGModal] = useState(false);
 
@@ -83,11 +85,21 @@ export default function Arrhythmia() {
 
       {/* List */}
       <div className="flex flex-col gap-2.5">
-          <ListItem id="338" time="16시 10분 57초" active onClick={() => handleEventClick({ id: 338, time: '16시 10분 57초' })} />
-          <ListItem id="337" time="14시 25분 36초" onClick={() => handleEventClick({ id: 337, time: '14시 25분 36초' })} />
-          <ListItem id="336" time="14시 25분 24초" onClick={() => handleEventClick({ id: 336, time: '14시 25분 24초' })} />
-          <ListItem id="335" time="14시 25분 18초" onClick={() => handleEventClick({ id: 335, time: '14시 25분 18초' })} />
-          <ListItem id="334" time="14시 24분 58초" onClick={() => handleEventClick({ id: 334, time: '14시 24분 58초' })} />
+          {[
+              { id: 338, time: "16시 10분 57초" },
+              { id: 337, time: "14시 25분 36초" },
+              { id: 336, time: "14시 25분 24초" },
+              { id: 335, time: "14시 25분 18초" },
+              { id: 334, time: "14시 24분 58초" }
+          ].map(item => (
+              <ListItem 
+                key={item.id}
+                id={item.id} 
+                time={item.time} 
+                active={selectedEvent?.id === item.id}
+                onClick={() => handleEventClick(item)} 
+              />
+          ))}
       </div>
 
       {/* ECG Modal */}
