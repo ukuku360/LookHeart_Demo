@@ -106,15 +106,10 @@ export default function Home() {
                  </div>
              </div>
              {/* Toggle */}
-             <div className="flex bg-blue-100 rounded-full p-1 w-32 relative">
-                 <div className="z-10 w-1/2 text-center text-[10px] font-bold text-white leading-5">SNS</div>
-                 <div className="z-10 w-1/2 text-center text-[10px] font-bold text-white leading-5">PNS</div>
-                 <div className="absolute inset-y-1 left-1 w-[calc(50%-4px)] bg-rose-300 rounded-full shadow-sm"></div>
-                 {/* This toggle needs logic but for mockup hardcoded is fine. Screenshot shows SNS pink selected. */}
-                 {/* Actually screenshot shows: SNS (Pink bg), PNS (Blue bg). It is a split bar. */}
-                 <div className="absolute inset-0 flex">
-                    <div className="w-1/2 bg-rose-300 rounded-l-full flex items-center justify-center text-white text-[10px] font-bold">SNS</div>
-                    <div className="w-1/2 bg-blue-300 rounded-r-full flex items-center justify-center text-white text-[10px] font-bold opacity-50">PNS</div>
+             <div className="flex bg-blue-100 rounded-full p-1 w-36 relative h-7">
+                 <div className="absolute inset-x-1 inset-y-1 flex">
+                    <div className="w-1/2 bg-rose-400 rounded-l-full flex items-center justify-center text-white text-xs font-bold shadow-sm">SNS</div>
+                    <div className="w-1/2 bg-blue-400 rounded-r-full flex items-center justify-center text-white text-xs font-bold shadow-sm">PNS</div>
                  </div> 
              </div>
          </div>

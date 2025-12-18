@@ -47,29 +47,35 @@ export default function AIInsightCard({ dailyData }) {
       {/* Header */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full p-5 flex items-start gap-4 text-left hover:bg-gray-50/50 transition-colors"
+        className="w-full p-5 flex items-center gap-4 text-left hover:bg-gray-50/50 transition-colors"
       >
-        <div className="mt-1">
-            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-xl">
+        <div className="flex-shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 flex items-center justify-center text-2xl shadow-sm">
                 {insight.emoji}
             </div>
         </div>
 
-        <div className="flex-1 min-w-0 pt-0.5">
-          <div className="flex items-center justify-between mb-1">
-             <span className="text-xs font-bold text-blue-500 uppercase tracking-wider">AI Insight</span>
-             {insight.score !== undefined && (
-                <span className="text-xs font-bold text-gray-400">
-                    건강점수 <span className="text-gray-900 text-sm ml-1">{insight.score}</span>
-                </span>
-             )}
-          </div>
-          <h3 className="text-base font-bold text-gray-800 leading-snug pr-4">
+        <div className="flex-1 min-w-0 py-1">
+           <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider mb-2">
+             <Sparkles size={10} className="fill-blue-600" />
+             AI 인사이트
+           </span>
+          <h3 className="text-base font-bold text-gray-800 leading-tight pr-2 line-clamp-2">
             {insight.summary}
           </h3>
         </div>
 
-        <div className="mt-1 text-gray-400">
+        {insight.score !== undefined && (
+            <div className="flex-shrink-0 flex flex-col items-center justify-center px-3 py-1 border-l border-gray-100 ml-1">
+                <span className="text-[10px] font-bold text-gray-400 mb-0.5">건강점수</span>
+                <div className="flex items-end leading-none">
+                    <span className="text-2xl font-black text-blue-600 tracking-tight">{insight.score}</span>
+                    <span className="text-xs font-bold text-blue-400 mb-1 ml-0.5">점</span>
+                </div>
+            </div>
+        )}
+
+        <div className="text-gray-300 pl-1">
           {isExpanded ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
         </div>
       </button>
